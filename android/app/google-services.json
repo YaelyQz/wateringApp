@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "199138869701",
+    "project_id": "watering-112ed",
+    "storage_bucket": "watering-112ed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199138869701:android:e1b3997937bcf271550bac",
+        "android_client_info": {
+          "package_name": "com.example.uacj_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "199138869701-l8rtjoak1hkeb0ucnlp54ben0shlbcn0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPz4t-cdN8fw64lW7GIzKdqTULutnV1Vg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "199138869701-l8rtjoak1hkeb0ucnlp54ben0shlbcn0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

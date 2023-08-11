@@ -8,27 +8,37 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: tabs(context),
-          body: TabBarView(
-            children: [state(context), image(context)],
-          ),
-        )
+      length: 2,
+      child: Scaffold(
+        appBar: tabs(context),
+        body: TabBarView(
+          children: [state(context), image(context)],
+        ),
+      ),
     );
   }
 
   PreferredSizeWidget tabs(BuildContext context) {
     return AppBar(
+      elevation: 8,
+      backgroundColor: Colors.white,
       bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(30), // Ajusta el valor para aumentar el espacio entre AppBar y TabBar.
+        preferredSize: const Size.fromHeight(30),
         child: Container(
-          padding: const EdgeInsets.only(bottom: 8), // Ajusta el valor para aumentar o disminuir el espaciado.
+          padding: const EdgeInsets.only(bottom: 8),
           child: const TabBar(
             tabs: [
-              Tab(text: 'Estado', icon: Icon(Icons.water_drop),),
-              Tab(text: 'Visualizar planta', icon: Icon(Icons.camera_alt),)
+              Tab(
+                text: 'Estado',
+                icon: Icon(Icons.water_drop),
+              ),
+              Tab(
+                text: 'Visualizar planta',
+                icon: Icon(Icons.camera_alt),
+              ),
             ],
+            labelColor: Colors.blue, // Ajusta el color del texto seleccionado
+            unselectedLabelColor: Colors.blueGrey, // Ajusta el color del texto no seleccionado
           ),
         ),
       ),

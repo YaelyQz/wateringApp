@@ -14,51 +14,84 @@ class StatePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(10),
         children: [
           const SizedBox(height: 24),
-          Riego(),
-          const SizedBox(height: 24),
-          Humedad(),
-          const SizedBox(height: 24),
-          const Text(
-            'Historial de Riego',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+          RiegoButton(),
+          const SizedBox(height: 30), // Espaciado entre el título y el mensaje de humedad
+          Container(
+            color: Colors.blueGrey, // Fondo oscuro
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: const Text(
+              'Detección de humedad',
+              style: TextStyle(
+                color: Colors.white, // Texto en blanco
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+              ),
+            ),
           ),
-          Historial(),
+          const SizedBox(height: 10),
+          const HumedadIndicator(),
+          const SizedBox(height: 10),
+          Container(
+            color: Colors.blueGrey, // Fondo oscuro
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: const Text(
+              'Historial de Riego',
+              style: TextStyle(
+                color: Colors.white, // Texto en blanco
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+              ),
+            ),
+          ),
+          const SizedBox(height: 10), // Espaciado entre el título y el calendario
+          const HistorialCalendario(),
         ],
       ),
     );
   }
 }
 
-class Riego extends StatefulWidget {
+class RiegoButton extends StatefulWidget {
   @override
-  _RiegoState createState() => _RiegoState();
+  _RiegoButtonState createState() => _RiegoButtonState();
 }
 
-class _RiegoState extends State<Riego> {
+class _RiegoButtonState extends State<RiegoButton> {
   @override
   Widget build(BuildContext context) {
     return Center(
       child: ElevatedButton(
         onPressed: () {
           // Lógica del botón de riego
+          // loading 5 segundos mínimo y deshabilitar el botón
         },
-        child: const Text('Botón de riego'),
+        style: ElevatedButton.styleFrom(
+          primary: Colors.blue,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20), // Botón
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16), // Espaciado interno
+        ),
+        child: const Text(
+          'Activar Riego',
+          style: TextStyle(fontSize: 18), // Tamaño del texto
+        ),
       ),
     );
   }
 }
 
-class Humedad extends StatefulWidget {
-  const Humedad({super.key});
+class HumedadIndicator extends StatefulWidget {
+  const HumedadIndicator({super.key});
 
   @override
-  _HumedadState createState() => _HumedadState();
+  _HumedadIndicatorState createState() => _HumedadIndicatorState();
 }
 
-class _HumedadState extends State<Humedad> {
+class _HumedadIndicatorState extends State<HumedadIndicator> {
   bool humedadPresente = false; // Cambia según la detección de humedad
 
   @override
@@ -70,13 +103,22 @@ class _HumedadState extends State<Humedad> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Center(
-            child: Text(
-              humedadPresente
-                  ? 'Humedad detectada en la tierra'
-                  : 'No se detecta humedad en la tierra',
-              style: const TextStyle(fontSize: 18),
-            ),
+          child: Column(
+            children: [
+              Icon(
+                humedadPresente ? Icons.water_drop_rounded : Icons.cloud_off,
+                size: 60,
+                color: humedadPresente ? Colors.blue : Colors.blueGrey,
+              ),
+              const SizedBox(height: 10), // Espaciado entre el ícono y el texto
+              Text(
+                humedadPresente
+                    ? 'Humedad detectada en la tierra'
+                    : 'No se detecta humedad en la tierra',
+                style: const TextStyle(fontSize: 18),
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
         ),
       ),
@@ -84,15 +126,14 @@ class _HumedadState extends State<Humedad> {
   }
 }
 
-class Historial extends StatefulWidget {
-  const Historial({super.key});
+class HistorialCalendario extends StatefulWidget {
+  const HistorialCalendario({super.key});
 
   @override
-  _HistorialState createState() => _HistorialState();
+  _HistorialCalendarioState createState() => _HistorialCalendarioState();
 }
 
-class _HistorialState extends State<Historial> {
-  // Simulación de fechas de riego para el calendario
+class _HistorialCalendarioState extends State<HistorialCalendario> {
   final List<DateTime> fechasDeRiego = [
     DateTime(2023, 8, 1),
     DateTime(2023, 8, 6),
@@ -104,7 +145,7 @@ class _HistorialState extends State<Historial> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(12.0),
       child: SfCalendar(
         view: CalendarView.month,
         monthViewSettings: const MonthViewSettings(
@@ -113,13 +154,37 @@ class _HistorialState extends State<Historial> {
         ),
         dataSource: _RiegoDataSource(fechasDeRiego),
         appointmentBuilder: _appointmentBuilder,
+        monthCellBuilder: (BuildContext context, MonthCellDetails cellDetails) {
+          // Personaliza el estilo de las celdas del mes aquí
+          return Center(
+            child: Text(
+              '${cellDetails.date.day}',
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 14,
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 
   Widget _appointmentBuilder(BuildContext context, CalendarAppointmentDetails details) {
     if (fechasDeRiego.contains(details.date)) {
-      return const Icon(Icons.water_drop, color: Colors.blue);
+      return Container(
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.blue,
+        ),
+        child: const Center(
+          child: Icon(
+            Icons.water_drop,
+            color: Colors.white,
+            size: 20,
+          ),
+        ),
+      );
     }
     return Container();
   }
@@ -130,8 +195,10 @@ class _RiegoDataSource extends CalendarDataSource {
     appointments = source.map((date) {
       return Appointment(
         startTime: date,
-        endTime: date.add(Duration(minutes: 30)),
+        endTime: date.add(const Duration(minutes: 30)),
       );
     }).toList();
   }
 }
+
+

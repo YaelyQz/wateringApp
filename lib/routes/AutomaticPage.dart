@@ -23,7 +23,19 @@ class _AutomaticPageState extends State<AutomaticPage> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            const Text("Seleccione las opciones para programar el riego de las plantas"),
+            const Align(
+              alignment: Alignment.center,
+              child: Text(
+                "Programa el riego de tus plantas",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Text("Seleccione las opciones para adaptar el riego a las necesidades de su planta"),
+            const SizedBox(height: 20),
             DropdownButtonFormField<String>(
               decoration: const InputDecoration(labelText: 'Regar cada'),
               value: selectedInterval,
@@ -45,7 +57,7 @@ class _AutomaticPageState extends State<AutomaticPage> {
                 return null;
               },
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             DropdownButtonFormField<String>(
               decoration: const InputDecoration(labelText: 'Duración'),
               value: selectedDuration,
@@ -67,14 +79,14 @@ class _AutomaticPageState extends State<AutomaticPage> {
                 return null;
               },
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             GestureDetector(
               onTap: () async {
                 DateTime? date = await showDatePicker(
                   context: context,
                   initialDate: DateTime.now(),
                   firstDate: DateTime.now(),
-                  lastDate: DateTime.now().add(Duration(days: 365)),
+                  lastDate: DateTime.now().add(const Duration(days: 365)),
                 );
                 if (date != null) {
                   setState(() {
@@ -86,7 +98,7 @@ class _AutomaticPageState extends State<AutomaticPage> {
                 padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.grey),
+                  border: Border.all(color: Colors.blueGrey),
                 ),
                 child: Text(
                   selectedDate != null
@@ -95,8 +107,15 @@ class _AutomaticPageState extends State<AutomaticPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 40),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20), // Botón
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16), // Espaciado interno
+              ),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _showResults();
@@ -112,7 +131,7 @@ class _AutomaticPageState extends State<AutomaticPage> {
 
   void _showResults() {
     String message = '''
-      El riego se realizará cada $selectedInterval hrs durante $selectedDuration minutos a partir del día ${selectedDate?.toLocal() ?? 'No seleccionada'}
+      El riego se realizará cada $selectedInterval hrs durante $selectedDuration minutos a partir del día ${selectedDate?.toLocal() ?? 'Fecha no seleccionada'}
     ''';
 
     showDialog(

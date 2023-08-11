@@ -11,9 +11,23 @@ class HelpPage extends StatelessWidget {
       ),
       body: Column(
         children: [
+          const SizedBox(height: 20),
+          Container(
+            color: Colors.blueGrey, // Fondo oscuro
+            padding: const EdgeInsets.symmetric(horizontal: 55, vertical: 12),
+            child: const Text(
+              'Información del sistema',
+              style: TextStyle(
+                color: Colors.white, // Texto en blanco
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
           Container(
             alignment: Alignment.center,
-            child: const Text('Información del sistema'),
+            //child: const Text('Información del sistema'),
           )
         ],
       ),
